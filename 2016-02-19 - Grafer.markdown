@@ -122,12 +122,46 @@ För att matematiskt avgöra om en graf är dense eller sparse så kan man anvä
 
 Om densiteten är nära 1 så är grafen dense och det är bättre att använda en adjacency matrix istället för en adjacency list.
 
+## Fria träd
+
+Som nämnts tidigare så är ett fritt träd en sammanhängande, acyclisk graf (alltså en graf där alla noder är sammankopplade och det inte finns några cykler). En graf av den här typen har alltid exakt `n-1` bågar.
+
+## Uppspännande träd
+
+Ett *uppspännande träd* är ett fritt träd som binder samman alla noder i en graf. Man utgår alltså från en färdig graf och väljer ut en delmängd av alla kanter så att man får en sammanhängande, acyclisk graf där alla noder i den ursprungliga grafen ingår.
+
+Det finns många användningsområden för det **minsta uppspännande trädet** i en graf. Det används bland annat inom datornätverk för att hitta det effektivaste sättet att koppla ihop alla noder på nätverket.
+
+För att hitta ett uppspännande träd (inte nödvändigtvis det minsta) så kan man traversera trädet med antingen DFS eller BFS och spara alla kanter som besöks. Vi kommer då få en acyklisk graf, eftersom vi aldrig besöker samma nod mer än en gång.
+
 ## Traversering
 
 Det finns två olika sätt att traversera grafer:
 
 * *Breadth First Search* (BFS)
-* *Depth First Search* (DFS)
+* *Depth First Search* (DFS) - finns pre- och postorder, precis som i träd
 
 De fungerar på nästan exakt samma sätt som för träd. Den enda skillnaden är att det kan finnas flera bågar till samma nod, så man måste hela tiden hålla koll på vilka noder man redan har besökt så att man inte besöker samma nod flera gånger.
 
+Man måste även ha i åtanke att grafen inte nödvändigtvis är sammanhängande. Vi kan alltså inte bara ta en godtycklig nod och köra traverseringen utifrån den och sedan anta att alla noder har besökt, utan vi måste se till att loopa igenom alla de fristående graferna.
+
+### DFS
+
+Det som skiljer DFS för grafer från DFS för träd är att man måste hålla reda på vilka noder man har besökt så att man inte besöker samma nod två gånger. Det här kan man göra på två sätt:
+
+1. Med en flagga i varje nod
+2. Med en mängd som innehåller alla besökta noder
+
+Alternativ 1 är snabbare, eftersom det alltid går på konstant tid. Det här kräver dock att du antingen modifierar noderna i grafen eller wrappar dem i nya objekt som har den behövda flaggan.
+
+Tidskomplexiteten för DFS är `O(|V| + |E|)`. Vi kommer besöka alla noder i grafen exakt en gång, och vi kommer ha utforskat alla kanter exakt en gång. Om man vill uttrycka komplexiteten med endast en variabel så kan vi anta att grafen har det maximala antalet kanter, alltså `|V|^2`. Komplexiteten blir då istället `O(|V|^2)`.
+
+Om man har en sammanhängande graf så är det minimala antalet kanter `|V| - 1`, så `|E| >= |V| - 1 <=> |V| <= |E| + 1` . Vi kan då uttrycka komplexiteten som `O(|E|)`.
+
+### BFS
+
+BFS för grafer skiljer sig från BFS för träd på samma sätt som DFS.
+
+## Degree
+
+Antalet grannar en nod har kallas för nodens *grad* (degree). Viktigt att notera här är att det endast är kanter som går **ut från noden** som räknas i en riktad graf.
