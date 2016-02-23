@@ -54,6 +54,7 @@ Används t.ex. för `Node` i `LinkedList` och `HashMap`.
 Man kan ibland förbättra prestandan hos en länkad lista genom att lägga element som accessas ofta i början av listan. Det här bygger på idén att accesserna ofta i 80% av fallen är till 20% av elementen.
 
 Det finns tre olika metoder för att åstadkomma en självorganiserande lista:
+
 1. **Move-to-front** - när ett elements söks så flyttas det till början av listan.
 2. **Transpose** - när ett element söks så flyttas det ett steg längre fram i listan.
 3. **Count** - varje element har en `count` som ökas varje gång det accessas. Listan sorteras sedan efter alla elements count (det accessade elementet flyttas fram tills dess count är lägre än elementet innans).

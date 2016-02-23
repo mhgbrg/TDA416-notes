@@ -56,7 +56,7 @@ Det genomsnittliga antalet jämförelser `c` för en operation är:
     Chaining:
     c = 1 + L/2
 
-**Se slides för en tabell över hur lång tid det tar i praktiken vid olika load factors**
+**Se slides för en tabell över hur lång tid det tar i praktiken vid olika load factors.**
 
 Man ser att chaining faktiskt alltid ger bättre komplexitet än open addressing. Det enda som är bra med open addressing är att alla element ligger nära varandra i minnet.
 

@@ -18,5 +18,3 @@ Listan implementeras med en helt vanlig array. Det här gör det lätt att lägg
 *Genomsnittlig tidskomplexitet*
 
 Räkna ut tidskomplexiteten för `n` anrop till funktionen. Räkna sedan ut den genomsnittliga tidskomplexiteten för ett anrop genom att dela på `n`.
-
-Se anteckningar för exempel för `add` i `ArrayList`.

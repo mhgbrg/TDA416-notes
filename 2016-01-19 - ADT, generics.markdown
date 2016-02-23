@@ -14,9 +14,3 @@ Abstrakta datatyper är endast definierade av de operationer som kan utföras p�
 
 Specifikationen hos en ADT består av *syntax* och *semantik*. Semantik är helt enkelt en beskrivning av exakt vad som ska hända när en viss operation körs på datatypen. Kan använda sig av pre och post-conditions i Java.
 
-## Länkad lista
-
-En länkad lista kan representeras på två sätt - som en array eller med objekt och pekare. När en array används så är pekaren till nästa element i listan helt enkelt är ett index i arrayen. 
-
-## Generics
-

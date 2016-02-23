@@ -6,8 +6,6 @@ Alla noder förutom den första (trädets rot) har alltid **exakt en** *parent*.
 
 De noder som ligger längst "ned" i trädet och som inte har några barn kallas för *leaves*.
 
-*Se anteckningar för illustration*
-
 ## Ordnade vs oordnade träd
 
 I ett ordnat träd så spelar ordningen av barn-noderna roll. T.ex. i ett `Binary Search Tree` så måste det vänstra barnet vara mindre än sin parent, och det högra större. Här spelar det alltså roll vilket barn som är vilket.

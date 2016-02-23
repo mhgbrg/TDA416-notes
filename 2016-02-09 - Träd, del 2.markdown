@@ -8,7 +8,7 @@ Heaps lagras effektivt som en array i minnet, där åtkomst till en nods barn ge
 
 ### Insert
 
-När man lägger in nya element i en heap lägger man det först på den första ledia platsen, alltså till höger om den sista noden (eller längst till vänster på en ny rad om den befintliga raden är full). Sedan swappar man det här elementet med sin parent tills villkoret för heapen tillfredställs igen. Den här operationen har komplexiteten `O(log(n))`. Man kan likna det med att det nya elementen "bubblar" upp till sin rätta plats i trädet. För att räkna ut var föräldernoden befinner sig använder man sig av uträkningen ovan.
+När man lägger in nya element i en heap lägger man det först på den första lediga platsen, alltså till höger om den sista noden (eller längst till vänster på en ny rad om den befintliga raden är full). Sedan swappar man det här elementet med sin parent tills villkoret för heapen tillfredställs igen. Den här operationen har komplexiteten `O(log(n))`. Man kan likna det med att det nya elementen "bubblar" upp till sin rätta plats i trädet. För att räkna ut var föräldernoden befinner sig använder man sig av uträkningen ovan.
 
 ### Extract min/max
 
@@ -70,8 +70,6 @@ Balansfaktor 2:
 * `Right Right` case
 
 Om man har ett `Left Right` eller ett `Right Left` case så roterar man trädet så att man får ett `Left Left` respektive `Right Right` case. `Left Left` case och `Right Right` case kan man direkt rotera så att subträdet blir helt balanserat.
-
-**Implementera ett sådant här träd!**
 
 ### Remove
 
