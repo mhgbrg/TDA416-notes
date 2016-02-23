@@ -1,0 +1,22 @@
+# Listor
+
+En *lista* är en mängd element med en bestämd inbördes ordning. **Obs!** bestämd ordning betyder inte att listan är sorterad, utan bara att ordningen i listan spelar roll.
+
+Listor kan representeras med *arrayer* eller med *objekt och pekare*. Båda implementationerna har sina fördelar och nackdelar.
+
+## Implementation med array
+
+Listan implementeras med en helt vanlig array. Det här gör det lätt att lägga till element i slutet av listan (spara en pointer till sista elementet) och att komma åt elementet på ett visst index i listan. Det tar dock lång tid att lägga till och ta bort element mitt i listan, eftersom alla element som kommer efter måste flyttas i minnet när det händer.
+
++ Konstant tidsåtgång för `insert` i slutet
++ Konstant tidsåtgång för access till element nr `i`
+- `insert` och `delete` i mitten av listan tar lång tid
+- Fast storlek (kan fixas, t.ex. `ArrayList` vars storlek dubleras när listan blir full)
+
+## Amorterad tidskomplexitet
+
+*Genomsnittlig tidskomplexitet*
+
+Räkna ut tidskomplexiteten för `n` anrop till funktionen. Räkna sedan ut den genomsnittliga tidskomplexiteten för ett anrop genom att dela på `n`.
+
+Se anteckningar för exempel för `add` i `ArrayList`.

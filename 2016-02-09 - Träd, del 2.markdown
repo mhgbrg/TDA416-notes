@@ -1,0 +1,86 @@
+# Träd, del 2
+
+## Heaps
+
+En typ av träd där varje nod är mindre än (eller större än i en max heap) sin parent. Binära heaps är exempel på ett komplett binärt träd som är vänsterbalanserat.
+
+Heaps lagras effektivt som en array i minnet, där åtkomst till en nods barn ges av index `2i + 1` och `2i + 2`.
+
+### Insert
+
+När man lägger in nya element i en heap lägger man det först på den första ledia platsen, alltså till höger om den sista noden (eller längst till vänster på en ny rad om den befintliga raden är full). Sedan swappar man det här elementet med sin parent tills villkoret för heapen tillfredställs igen. Den här operationen har komplexiteten `O(log(n))`. Man kan likna det med att det nya elementen "bubblar" upp till sin rätta plats i trädet. För att räkna ut var föräldernoden befinner sig använder man sig av uträkningen ovan.
+
+### Extract min/max
+
+När man tar bort roten ur en heap (`pop`) så ersätter man roten med det sista elementet i trädet. Sedan bubblar man det här elementet nedåt i listan på ungefär samma sätt som vid en insert. Det man gör är att jämföra elementet med båda sina nya barn för att se om det är större eller mindre än någon av dem. Om båda barnen är mindre än elementet (eller större i en max-heap) så swappar man med det barnet som skiljer sig mest från elementet.
+
+## Binary search tree (BST)
+
+### Insert
+
+För att lägga till ett element i ett binärt sökträd så använder du binärsökning för att hitta rätt plats för elementet. Du jämför elementet med roten i trädet för att se om det är större eller mindre än elementet du sätter in. Du repeterar sedan samma procedur för alla delträd tills du hittar rätt ställe.
+
+### Remove
+
+Om elementet du tar bort inte har några barn så kan du ta bort det direkt. Om elementet har 1 barn så ersätter du elementet med dess barn. Om elementet har två barn så är det däremot lite krångligare att ta bort det.
+
+Det du gör är att leta fram det största elementet i det vänstra delträdet och ersätter elementet med det. För att hitta det här elementet så vill du gå så långt till höger som möjligt i det vänstra delträdet. Då hittar du ett element som är större än alla andra element i det vänstra delträdet, och även mindre än alla element i det högra delträdet. När du har gjort ersättningen så tar du bort elementet. Det här elementet har 0 eller 1 barn, så borttagningen av det är trivialt.
+
+## Trädrotationer för binära sökträd
+
+I en högerrotation så blir rotens vänstra child den nya roten, och i en vänsterrotation så blir rotens högra child den nya roten.
+
+## AVL
+
+AVL-träd är ett binärt sökträd som är höjdbalanserat. Höjdbalanseringen i det här fallet innebär att för varje nod ska höjden för vänster och höger delträd skilja sig med max 1. Det här kallas för *balansfaktor* (sparas fördelaktigen som en variabel i varje nod).
+
+    Math.abs(height(left) - height(right)) <= 1
+
+**Hur kan vi vara säkra på att det här ger `O(log(n))` tid för operationerna?**
+
+Vi kan testa att skapa ett träd som är så högt som möjligt, och ser hur många noder som behövs för några olika höjder `h` samtidigt som vi tillfredställer invarianten av trädet (höjdskillnaden mellan höger och vänster delträd). Vi ser då att:
+
+| höjd | storlek | Fibonacci |
+| ---- | ------- | --------- |
+|    h |       n | n + 1     |
+|    0 |       1 | 2         |
+|    1 |   >=  2 | 3         |
+|    2 |   >=  4 | 5         |
+|    3 |   >=  7 | 8         |
+|    4 |   >= 12 | 13        |
+
+Vi ser att storleken växer exponentiellt (Fibonacci växer exponentiellt), vilket ger att höjden växer logaritmiskt.
+
+### Insert
+
+En insert i ett AVL-träd sker på samma sätt som i ett vanligt binärt sökträd - man utför en binärsökning för att hitta rätt plats i trädet för det nya elementet.
+
+När vi har lagt till den nya noden räknar vi om balansfaktorn för de noder som påverkas av insättningen. För att göra det så börjar vi från den nya nodens förälder och går hela vägen upp till roten. 
+
+Om någon nod inte tillfredställer invarianten så roterar vi trädet tills invarianten stämmer för alla noder i trädet. Det här kallas för *retracing*.
+
+När en ny nod har satts in så kan balansfaktorn för en nod vara i intervallet `[-2, 2]` (eftersom alla noder tidigare hade en balansfaktor i intervallet `[-1, 1`). Det finns två olika fall för när en nod har balansfaktorn -2 och två för när den har 2.
+
+Balansfaktor -2:
+* `Left Right` case
+* `Left Left` case
+
+Balansfaktor 2:
+* `Right Left` case
+* `Right Right` case
+
+Om man har ett `Left Right` eller ett `Right Left` case så roterar man trädet så att man får ett `Left Left` respektive `Right Right` case. `Left Left` case och `Right Right` case kan man direkt rotera så att subträdet blir helt balanserat.
+
+**Implementera ett sådant här träd!**
+
+### Remove
+
+Remove görs på liknande sätt som `insert`.
+
+## Splay
+
+Ett Splay-träd är ett binärt sökträd som inte är höjdbalanserat, men det är däremot *självorganiserat*. Vad det innebär är att noder som accessas ofta automatiskt läggs långt upp i trädet för att säkerställa snabb access.
+
+Splay-träd är dåliga på concurrency, eftersom trädet ändras när man läser det. Det innebär att bara en läsare tillåts åt gången.
+
+

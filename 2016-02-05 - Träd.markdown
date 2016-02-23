@@ -1,0 +1,93 @@
+# Träd
+
+Träd är en datastruktur som består av *nodes* och *edges*. Varje nod har 0 eller flera *children*, som också är noder som alltså i sin tur kan ha fler children.
+
+Alla noder förutom den första (trädets rot) har alltid **exakt en** *parent*. En nod som ligger ovanför en annan nod i hierarkin kallas för *ancestor*. Noder som har samma förälder kallas för *siblings*.
+
+De noder som ligger längst "ned" i trädet och som inte har några barn kallas för *leaves*.
+
+*Se anteckningar för illustration*
+
+## Ordnade vs oordnade träd
+
+I ett ordnat träd så spelar ordningen av barn-noderna roll. T.ex. i ett `Binary Search Tree` så måste det vänstra barnet vara mindre än sin parent, och det högra större. Här spelar det alltså roll vilket barn som är vilket.
+
+I ett oordnat träd spelar ordningen ingen roll. Tänk dig filsystemet i en dator. Det spelar ingen roll i vilken ordning mapparna och filerna är ordnade i den bakomliggande strukturen.
+
+Vi kan jämföra ordnade och oordnade träd med listor och mängder, där listor har en bestämd ordning och mängder är oordnade.
+
+## Användningsområden
+
+* Sökträd - "billigt" att leta efter ett visst element
+* Filsystem
+* Prioritetskö (t.ex. heap)
+* Sortering (heap sort)
+* Matematiska uttryck (*se anteckningar*)
+* Programspråk
+* Naturliga språk
+
+Implementationer i `java.collections`:
+* TreeMap
+* TreeSet
+* PriorityQueue (heap)
+
+Finns ingen abstrakt datatyp för träd, men finns andra datatyper som implementeras med hjälp av träd, t.ex. `Map`, `Set` och `Queue`.
+
+## Fler definitioner
+
+En väg mellan två noder kallas för *path*. Vägens längd är antalet edges man behöver passera för att ta den.
+
+*Depth* är ett mått på hur djupt ner i trädet en viss nod ligger. Roten ligger på djup 0, och dess barn ligger på djup 1.
+
+Höjden av ett **träd** är längden på den längsta väg från roten till ett löv = längden på vägen från roten till det djupaste löver. Det här blir antalet nivåer i trädet - 1. Höjden av en **nod** är samma sak fast för en enskild nod.
+
+Storleken av ett träd kallas för *size*, och är helt enkelt bara antal noder i trädet.
+
+## Representation
+
+Det finns egentligen två olika sätt att implementera ett träd på, *arrayer* och *pekare*. Det vanligaste är att representera ett träd med pekare, men det finns användningsområden då arrayer är bättre, t.ex. för heaps.
+
+### Left-child right-sibling
+
+Här har varje nod en pekare till sitt "vänstraste" barn och till sitt högra syskon, *se anteckningar*. Det här sättet gör att varje nod bara behöver två pekare, istället för `n` som är fallet i den vanliga implementationen.
+
+Den här implementationen används inte så ofta, men ibland kan den vara att föredra över den vanliga implementationen med pekare.
+
+## Binära träd
+
+Binära träd är ett vanligt speciallfall av träd. Här har varje nod 0-2 barn, och barnen har en ordning. Det är alltså ett **ordnat träd**. Man brukar kalla barnen för vänstra barnet och högra barnet.
+
+Ett binärt träd representeras enkelt med pekare, där varje nod har två pekare till sina childnodes. Varje nod i trädet är ett eget binärt delträd.
+
+## Traversal
+
+Det finns tre olika ordningar som man kan genomlöpa träd på:
+* In order
+* Pre order
+* Post order
+
+Det som skiljer dem åt är när man väljer att processera "mitten"-noden.
+**In order** - ta först det vänstra barnet, sen dig själv, sen det högra.
+**Pre order** - ta först dig, sen det vänstra barnet sen det högra barnet
+**Post order** - ta först det vänstra barnet, sen det högra barnet, och sist dig själv.
+
+## Sorterade träd
+
+Ett träd kan vara både partiellt ordnat och totalt ordnat. Ett exempel på att partiellt ordnat träd är en heap. Binära sökträd är totalt ordnade.
+
+I totalt orndat träd så ska regeln gälla för hela trädet. I ett partiellt ordnat träd behöver regeln bara gälla för varje enskilt delträd. Du kollar alltså bara på varje enskild nod och dess barn, och inte helheten.
+
+## Balanserade sökträd
+
+För att tidskomplexiteten för `insert`, `search` och `remove` ska vara log(n) så krävs det att trädet är balanserat. Det här betyder att trädets höjd ska vara så lågt som möjligt, alltså log(n) i bästa fall.
+
+Om man sätter in element i en slumpmässig ordning i ett vanlig binärt sökträd så blir trädet balanserat. Om man däremot sätter in alla element i storleksordning så kommer trädet bara bli en glorifierad länkad lista med O(n) tid för operationerna.
+
+För att komma runt det här så kan man ha träd som automatiskt balanserar sig själva så att höjden alltid är optimal (eller i alla fall tillräckligt nära). Det finns fyra vanliga implementationer av balanserade träd:
+
+* AVL-träd - binärt träd
+* B-träd - n-träd
+* Red-black-träd - binärt träd (specialfall av B-träd)
+* Splay-träd - binärt träd
+
+Splay-trädet är egentligen inte balanserat, utan fungerar så att de noder som accessas ofta ligger nära roten. Det gör man genom att *rotera* trädet varje gång en nod accessas så att den noden blir roten i trädet. De noder som accessas ofta "bubblar" alltså upp till ytan.

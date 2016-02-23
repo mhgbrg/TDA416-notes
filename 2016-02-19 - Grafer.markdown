@@ -1,0 +1,133 @@
+# Grafer
+
+En graf är en abstrakt datatyp som består av noder (vertices) och kanter (edges).
+
+    G = (V, E)
+
+Där V är en mängd av noder och E är en mängd av kanter. En kant är helt enkelt ett par av noder som är sammankopplade i grafen.
+
+    |V| = antalet noder = grafens ordning
+    |E| = antalet kanter = grafens storlek
+
+## Riktade grafer
+
+En graf kan vara *riktad* eller *oriktad*. I en oriktad graf så kan man gå åt båda hållen i varje kant, i en riktad graf så har varje kant en riktning. Riktade grafer kallas för *digraph*. Kanterna beskrivs på olika sätt beroende på om grafen är riktad eller oriktad. Om grafen är riktad så består kanterna av ordnade par, om grafen är oriktad består de av oordnade par.
+
+    riktad graf -> ordnade par -> (u, v)
+    oriktad graf -> oordnade par -> {u, v}
+    u och v är element i V (alltså noder i grafen)
+
+## Viktade grafer
+
+En graf kan också vara viktad. Det här betyder att varje kant har ett värde associerat med sig - en *vikt*. Den här vikten beskriver hur dyrt det är att gå från den första noden till den andra via den kanten.
+
+Om man har en viktad graf så kan man enkelt göra den oviktad genom att sätta alla vikter till 1.
+
+## Används till
+
+Grafen kan användas till mycket, men de är framför allt användbara till att modellera olika sorters nätverk.
+
+**Kolla Wikipedia efter fler användningsområden**
+
+## Adjacent
+
+Två noder i en graf är *adjacent* (förbundna) om det finns en kant mellan dem. Man kan också säga att de är *grannar*.
+
+## Path
+
+En *path* (eller en väg) är helt enkelt en väg mellan två noder i en graf. Det här är en serie av noder och kanter som är adjacent.
+
+En *simple path* (enkel väg) är en väg där ingen nod förekommer mer än en gång. 
+
+En *Hamiltonian path* (Hamiltonsk väg) är en väg som besöker **alla noder exakt en gång**. Det här är en enkel väg (som alltså inte besöker samma nod mer än en gång). Notera att det är bara alla noder som behöver besökas, inte alla kanter.
+
+En *Euler path* (Eulerväg) är nästan samma sak som en Hamiltoninan path, med den enkla skillnaden att det här är alla **kanter** som ska besökas exakt en gång och inte alla noder. Notera att en Euler path inte behöver vara en enkel väg. Det är alltså **tillåtet att besöka samma nod flera gånger**.
+
+## Cycles
+
+En *cycle* är en väg (med längd >= 1) som start och slutar i samma nod. Det behöver inte nödvändigtvis vara en enkel väg.
+
+En *simple cycle* är (på samma sätt som en simple path) en cykel där samma nod inte besöks upprepade gånger (förutom start- och slutnoden förstås). Det här kallas också för *circuit* (krets).
+
+## Sammanhängande grafer
+
+Två **noder** är sammanhängande om det finns en väg mellan dem i grafen. 
+
+En **graf** är sammanhängande om alla noder i grafen är sammanhängade med alla andra noder i grafen. I klarspråk betyder det alltså att grafen inte har någon eller några noder som ligger "separat".
+
+**Riktade grafer** kan vara *starkt sammanhängande*. Om en riktad graf är starkt sammahängande betyder det att man från vilken nod som helst kan ta sig till vilken annan nod som helst. En riktad graf kan vara sammanhängande utan att vara starkt sammanhängande.
+
+## Loops
+
+En *loop* är en både som går från sig själv till sig själv. Oftast antas grafer inte innehålla några loopar om inget annat sägs.
+
+## Multigraf
+
+I en *multigraf* kan det finnas fler än en kant mellan två noder. Det här gäller både riktade och oriktade grafer. En riktad graf kan ha två kanter mellan två noder (en i varje riktning) utan att behöva vara en multigraf. I en multigraf tillåts dock flera kanter **åt samma håll** mellan två noder.
+
+## Antal kanter
+
+Det maximala antalet kanter i en **riktad graf** är `n^2`. Varje nod har `n` kanter (till alla andra noder och sig själv).
+
+I en **oriktad graf** är det maximala antalet `n(n-1)/2`. Varje nod har `n-1` kanter (till alla noder förutom sig själv). Eftersom det bara kan finnas en kant mellan två noder så blir antalet halverat.
+
+I multigrafer kan man ha oändligt många kanter.
+
+## Komplett graf
+
+I en *komplett graf* finns det en kant mellan varje par av noder. En komplett graf har alltså det maximala antalet kanter.
+
+## Specialfall
+
+*Acyklisk graf* - innehåller inga cykler. Det finns alltså bara en enda väg mellan två noder.
+
+*Fritt träd* - oriktad, sammanhängande, acyklisk graf. Du kan välja vilken nod som helst i grafen och sätta den som rot ("hänga upp grafen i den noden").
+
+*Fri skog* - oriktad och acyklisk graf. Det här är alltså en mängd av osammanhängande fria träd.
+
+*Dag* - "directed acyclic graph". Alltså en riktad graf utan cykler.
+
+## Representation
+
+Två vanliga sätt att representera grafer på är:
+
+* Adjacency matrix (efterföljarmatris)
+* Adjacency list (efterföljarlista)
+
+### Adjacency matrix
+
+Grafen representeras som en matris, där raderna representerar "source nodes" och kolumnerna representerar "destination nodes". Elementen i matrisen indikerar om två par av noder är grannar i grafen. 1 betyder att `source node` och `destination node` är grannar, alltså att det finns en kant mellan noderna. 0 betyder att de inte är grannar.
+
+Istället för att bara spara ettor och nollor i matrisen kan man i en riktad graf istället låta ett element representera vikten på en kant mellan två noder. Om det inte finns någon kant använder man inte värdet 0 (eftersom kanter i vissa fall kan ha vikten 0), utan istället ∞.
+
+Eftersom loopar normalt inte återfinns i grafer så kommer alla element på diagonalen att vara 0 (eller ∞).
+
+I en oriktad graf kan man halvera matrisen (eftersom en kant mellan två noder åt ett håll även indikerar att det finns en kant åt andra hållet). Det är dock lättare att bara spara hela matrisen (som bli symmetrisk).
+
+Space-complexity för den här implementation är `O(|V|^2)`. Den här implementationen är effektivare än adjacency list för täta grafer (*dense graphs*), alltså grafer där antalet kanter är nära det maximala antalet.
+
+### Adjacency list
+
+Grafen representeras genom en lista med ett element för varje nod, där varje element innehåller en ny lista med alla nodens grannar. Elementen kan även innehålla vikten på kanterna som går till de olika noderna. Hur de olika listorna sparas är helt upp till utvecklaren. Man kan t.ex. använda hash tables, länkade listor, arrayer etc.
+
+Det här är ett sätt att representera grafer på som går att göra mer objektorienterat jämfört med adjacency matrix.
+
+Space-complexity för den här implementation är `O(|V|+|E|)`. Den här implementation är effektivare än adjacency matrix för glesa grafer (*spare graphs*) som inte har så många kanter i jämförelse med antalet noder.
+
+### Densitet
+
+För att matematiskt avgöra om en graf är dense eller sparse så kan man använda följande formel för att räkna ut grafens *densitet* (om densiteten är 1 så har grafen det maximala antalet kanter):
+
+    |E| / (|V|^2 - |V|)
+
+Om densiteten är nära 1 så är grafen dense och det är bättre att använda en adjacency matrix istället för en adjacency list.
+
+## Traversering
+
+Det finns två olika sätt att traversera grafer:
+
+* *Breadth First Search* (BFS)
+* *Depth First Search* (DFS)
+
+De fungerar på nästan exakt samma sätt som för träd. Den enda skillnaden är att det kan finnas flera bågar till samma nod, så man måste hela tiden hålla koll på vilka noder man redan har besökt så att man inte besöker samma nod flera gånger.
+
