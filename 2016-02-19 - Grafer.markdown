@@ -27,7 +27,7 @@ Om man har en viktad graf så kan man enkelt göra den oviktad genom att sätta 
 
 Grafen kan användas till mycket, men de är framför allt användbara till att modellera olika sorters nätverk.
 
-**Kolla Wikipedia efter fler användningsområden**
+**Se [Wikipedia](https://sv.wikipedia.org/wiki/Minimalt_uppsp%C3%A4nnande_tr%C3%A4d#Anv.C3.A4ndningsomr.C3.A5den) för fler användningsområden.**
 
 ## Adjacent
 
