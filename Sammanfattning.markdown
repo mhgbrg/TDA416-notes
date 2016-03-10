@@ -648,3 +648,71 @@ Merge sort är precis som quick sort en rekursiv sorteringsalgoritm. En skillnad
         }
     }
 
+### Heap sort
+
+Heap sort är en sorteringsalgoritm som utnyttjar datastrukturen heap, som har garanterad `O(log(n))` tid för extrahering av det minsta elementet. Det man gör är helt enkelt att skapa en heap av den ursprungliga arrayen (*heapify*), vilket går att göra på linjär tid. Sedan tar man kontinuerligt ut det minsta elementet tills heapen är tom. Man kommer då har gjort `n` extraheringar av det minsta elementet, vilket alltså har komplexiteten `n * log(n)`.
+
+    void heapSort(int[] arr) {
+        Heap heap = new Heap(arr);
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = heap.extractMin();
+        }
+    }
+    
+    class Heap {
+        private int[] arr;
+        private int length;
+        
+        public Heap(int[] arr) {
+            this.arr = new int[arr.length];
+            for (int i = 0; i < arr.length; i++) {
+                this.arr[i] = arr[i];
+            }
+            this.length = arr.length;
+            
+            // Begin at index length / 2 - 1 and work towards the root
+            for (int i = arr.length / 2 - 1; i >= 0; i--) {
+                heapify(i);
+            }
+        }
+        
+        void heapify(int i) {
+            int l = 2 * i + 1;
+            int r = 2 * i + 2;
+            
+            // Does a right child exist?
+            if (r < this.length) {
+                // Yes, then there is a left child as well
+                if (this.arr[l] < this.arr[i] || this.arr[r] < this.arr[i]) {
+                    // Swap with the smallest child
+                    if (this.arr[l] < this.arr[r]) {
+                        swap(l, i);
+                        heapify(l);
+                    } else {
+                        swap(r, i);
+                        heapify(r);
+                    }
+                }
+            } else if (l < this.length) {
+                // No, just check left child
+                if (l < this.arr[i]) {
+                    swap(l, i);
+                    heapify(l);
+                }
+            }
+        }
+        
+        int extractMin() {
+            int min = this.arr[0];
+            swap(0, this.length - 1);
+            this.length--;
+            heapify(0);
+            return min;
+        }
+        
+        void swap(int i1, int i2) {
+            int tmp = this.arr[i1];
+            this.arr[i1] = this.arr[i2];
+            this.arr[i2] = tmp;
+        }
+    }
