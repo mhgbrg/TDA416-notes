@@ -562,7 +562,7 @@ För att den här algoritmen ska vara effektiv krävs det att pivot-elementet v�
         quickSortRec(arr, pivotIndex + 1, end);
     }
     
-    void partition(int[] arr, int start, int end) {
+    int partition(int[] arr, int start, int end) {
         int pivotIndex = end - 1;
         int pivot = arr[pivotIndex];
         
@@ -608,11 +608,10 @@ Merge sort är precis som quick sort en rekursiv sorteringsalgoritm. En skillnad
         arrayCopy(arr, left, 0);
         arrayCopy(arr, right, left.length);
         
-        left = mergeSort(left);
-        right = mergeSort(right);
+        mergeSort(left);
+        mergeSort(right);
             
         merge(arr, left, right);
-        return arr;
     }
     
     void arrayCopy(int[] from, int[] to, int startIndex) {
@@ -640,11 +639,13 @@ Merge sort är precis som quick sort en rekursiv sorteringsalgoritm. En skillnad
         while (aIndex < a.length) {
             to[toIndex] = a[aIndex];
             aIndex++;
+            toIndex++;
         }
         
         while (bIndex < b.length) {
             to[toIndex] = b[bIndex];
             bIndex++;
+            toIndex++;
         }
     }
 
@@ -695,7 +696,7 @@ Heap sort är en sorteringsalgoritm som utnyttjar datastrukturen heap, som har g
                 }
             } else if (l < this.length) {
                 // No, just check left child
-                if (l < this.arr[i]) {
+                if (this.arr[l] < this.arr[i]) {
                     swap(l, i);
                     heapify(l);
                 }
